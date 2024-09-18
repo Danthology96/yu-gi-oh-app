@@ -12,7 +12,7 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
   ));
 
   /// Convert the JSON response to a list of YuGiOhCards.
-  List<YuGiOhCard?>? _jsonToYuGiOhCards(Map<String, dynamic> json) {
+  List<YuGiOhCard>? _jsonToYuGiOhCards(Map<String, dynamic> json) {
     final yuGiOhresponse = CardListResponse.fromMap(json);
     final List<YuGiOhCard> cards =
         yuGiOhresponse.data == null ? [] : yuGiOhresponse.data!;
@@ -20,7 +20,7 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
   }
 
   @override
-  Future<List<YuGiOhCard?>?> getAllCards() async {
+  Future<List<YuGiOhCard>?> getAllCards() async {
     final response = await dio.get(
       '/cardinfo.php',
     );
@@ -28,7 +28,7 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
   }
 
   @override
-  Future<List<YuGiOhCard?>?> getByArchetype({required String archetype}) async {
+  Future<List<YuGiOhCard>?> getByArchetype({required String archetype}) async {
     final response = await dio.get(
       '/cardinfo.php',
       queryParameters: {
@@ -39,7 +39,7 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
   }
 
   @override
-  Future<List<YuGiOhCard?>?> getByMatchName({required String name}) async {
+  Future<List<YuGiOhCard>?> getByMatchName({required String name}) async {
     final response = await dio.get(
       '/cardinfo.php',
       queryParameters: {
@@ -50,7 +50,7 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
   }
 
   @override
-  Future<List<Archetype?>?> getArchetypes() async {
+  Future<List<Archetype>?> getArchetypes() async {
     final response = await dio.get(
       '/archetypes.php',
     );
