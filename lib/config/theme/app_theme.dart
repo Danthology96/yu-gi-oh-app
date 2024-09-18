@@ -6,6 +6,7 @@ class AppTheme {
   ThemeData getTheme() => ThemeData(
         fontFamily: 'Stone-Serif',
         brightness: Brightness.dark,
+        scaffoldBackgroundColor: appColorScheme.surface,
         useMaterial3: true,
         colorScheme: appColorScheme,
         textTheme: textTheme,

@@ -62,34 +62,34 @@ class YuGiOhCard {
   factory YuGiOhCard.fromMap(Map<String, dynamic> json) => YuGiOhCard(
         id: json["id"],
         name: json["name"],
-        type: typeValues.map[json["type"]]!,
+        type: typeValues.map[json["type"]],
         humanReadableCardType:
-            humanReadableCardTypeValues.map[json["humanReadableCardType"]]!,
-        frameType: frameTypeValues.map[json["frameType"]]!,
+            humanReadableCardTypeValues.map[json["humanReadableCardType"]],
+        frameType: frameTypeValues.map[json["frameType"]],
         desc: json["desc"],
-        race: raceValues.map[json["race"]]!,
+        race: raceValues.map[json["race"]],
         archetype: json["archetype"],
         ygoprodeckUrl: json["ygoprodeck_url"],
         cardSets: json["card_sets"] == null
             ? []
             : List<CardSet>.from(
-                json["card_sets"]!.map((x) => CardSet.fromMap(x))),
+                json["card_sets"].map((x) => CardSet.fromMap(x))),
         cardImages: json["card_images"] == null
             ? []
             : List<CardImage>.from(
-                json["card_images"]!.map((x) => CardImage.fromMap(x))),
+                json["card_images"].map((x) => CardImage.fromMap(x))),
         cardPrices: json["card_prices"] == null
             ? []
             : List<CardPrice>.from(
-                json["card_prices"]!.map((x) => CardPrice.fromMap(x))),
+                json["card_prices"].map((x) => CardPrice.fromMap(x))),
         typeline: json["typeline"] == null
             ? []
             : List<Typeline>.from(
-                json["typeline"]!.map((x) => typelineValues.map[x]!)),
+                json["typeline"].map((x) => typelineValues.map[x])),
         atk: json["atk"],
         def: json["def"],
         level: json["level"],
-        attribute: attributeValues.map[json["attribute"]]!,
+        attribute: attributeValues.map[json["attribute"]],
         pendDesc: json["pend_desc"],
         monsterDesc: json["monster_desc"],
         scale: json["scale"],
@@ -97,7 +97,7 @@ class YuGiOhCard {
         linkmarkers: json["linkmarkers"] == null
             ? []
             : List<Linkmarker>.from(
-                json["linkmarkers"]!.map((x) => linkmarkerValues.map[x]!)),
+                json["linkmarkers"].map((x) => linkmarkerValues.map[x])),
         banlistInfo: json["banlist_info"] == null
             ? null
             : BanlistInfo.fromMap(json["banlist_info"]),

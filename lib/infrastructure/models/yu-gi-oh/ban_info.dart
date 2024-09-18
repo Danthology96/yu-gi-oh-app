@@ -19,9 +19,9 @@ class BanlistInfo {
   String toJson() => json.encode(toMap());
 
   factory BanlistInfo.fromMap(Map<String, dynamic> json) => BanlistInfo(
-        banGoat: banValues.map[json["ban_goat"]]!,
-        banTcg: banValues.map[json["ban_tcg"]]!,
-        banOcg: banValues.map[json["ban_ocg"]]!,
+        banGoat: banValues.map[json["ban_goat"]],
+        banTcg: banValues.map[json["ban_tcg"]],
+        banOcg: banValues.map[json["ban_ocg"]],
       );
 
   Map<String, dynamic> toMap() => {
