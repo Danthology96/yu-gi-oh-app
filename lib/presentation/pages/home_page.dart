@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  static const name = 'home-page';
+  static const path = '/$name';
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
