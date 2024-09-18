@@ -24,8 +24,8 @@ class CardSet {
   factory CardSet.fromMap(Map<String, dynamic> json) => CardSet(
         setName: json["set_name"],
         setCode: json["set_code"],
-        setRarity: setRarityValues.map[json["set_rarity"]]!,
-        setRarityCode: setRarityCodeValues.map[json["set_rarity_code"]]!,
+        setRarity: setRarityValues.map[json["set_rarity"]],
+        setRarityCode: setRarityCodeValues.map[json["set_rarity_code"]],
         setPrice: json["set_price"],
       );
 

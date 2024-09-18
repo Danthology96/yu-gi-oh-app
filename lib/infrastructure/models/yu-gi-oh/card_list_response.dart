@@ -19,7 +19,7 @@ class CardListResponse {
         data: json["data"] == null
             ? []
             : List<YuGiOhCard>.from(
-                json["data"]!.map((x) => YuGiOhCard.fromMap(x))),
+                json["data"].map((x) => YuGiOhCard.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
