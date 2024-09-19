@@ -1,16 +1,27 @@
-# yu_gi_oh_app
+# Yu-Gi-Oh Cards App
 
-A new Flutter project.
+Yu-Gi-Oh card information app.
+
+## Description
+
+This app is made to test abilities as a programmer. This app shows cards information based on:
+https://ygoprodeck.com/api-guide/ API.
+
+
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This application should run as any flutter project.
 
-A few resources to get you started if this is your first Flutter project:
+To execute the app, you should do the following:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+# To create a release apk
+run flutter build apk --release
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# To change the app bundle name:
+execute the following command:
+
+dart run change_app_package_name:main com.danovillo.yugiohapp
+
+# 🚀 ENJOY 🚀
+# Made with love by Daniel Novillo, Mobile Developer.
