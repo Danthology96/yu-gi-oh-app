@@ -22,13 +22,28 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: "^0.13.1"
+  package_rename_plus: ^1.0.1
 
+# Config to change the app icon
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/images/back-card.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
-  
+
+# Config to change the app name
+package_rename_config:
+  android:
+    app_name: "Yu-Gi-Oh App"
+    package_name: "com.danovillo.yugiohapp" # (String) The package name of the android app
+    override_old_package: # (Optional) (String) Use this to delete the old folder structure of MainActivity or to use the existing code with the new package name
+    lang: # (Optional) (String) The android development language {kotlin(default) or java}
+
+  ios:
+    app_name:  "Yu-Gi-Oh App" # (String) The display name of the ios app
+    bundle_name: "com.danovillo.yugiohapp" # (String) The bundle name of the ios app
+    override_old_package: # (String) Use this to replace the old bundle identifier with the new bundle identifier
+    package_name: # (String) The product bundle identifier of the ios app
 
 flutter:
   uses-material-design: true
