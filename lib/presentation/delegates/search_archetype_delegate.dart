@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:yu_gi_oh_app/infrastructure/models/yu-gi-oh/archetypes.dart';
 
+/// Search delegate to search for archetypes.
 class SearchArchetypeDelegate extends SearchDelegate<Archetype?> {
   List<Archetype> initialArchetypes;
   List<Archetype> searchedArchetypes = [];
@@ -34,10 +35,6 @@ class SearchArchetypeDelegate extends SearchDelegate<Archetype?> {
     if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
 
     _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
-      // if (query.trim().isEmpty) {
-      //   debouncedArchetypes.add([]);
-      //   return;
-      // }
       searchedArchetypes = initialArchetypes;
 
       final archetypes = searchedArchetypes.where((element) {

@@ -5,8 +5,10 @@ import 'package:animate_do/animate_do.dart';
 import 'package:yu_gi_oh_app/domain/entities/yugioh_card.dart';
 import 'package:yu_gi_oh_app/presentation/widgets/search_card_item.dart';
 
+/// Callback to search for cards.
 typedef SearchCardsCallback = Future<List<YuGiOhCard>> Function(String query);
 
+/// Search delegate to search for cards.
 class SearchCardDelegate extends SearchDelegate<YuGiOhCard?> {
   final SearchCardsCallback searchCards;
   List<YuGiOhCard> initialCards;
