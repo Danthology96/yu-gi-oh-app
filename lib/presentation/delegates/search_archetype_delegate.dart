@@ -2,35 +2,31 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:yu_gi_oh_app/domain/entities/yugioh_card.dart';
-import 'package:yu_gi_oh_app/presentation/widgets/search_card_item.dart';
+import 'package:yu_gi_oh_app/infrastructure/models/yu-gi-oh/archetypes.dart';
 
-/// Callback to search for cards.
-typedef SearchCardsCallback = Future<List<YuGiOhCard>> Function(String query);
-
-/// Search delegate to search for cards.
-class SearchCardDelegate extends SearchDelegate<YuGiOhCard?> {
-  final SearchCardsCallback searchCards;
-  List<YuGiOhCard> initialCards;
+/// Search delegate to search for archetypes.
+class SearchArchetypeDelegate extends SearchDelegate<Archetype?> {
+  List<Archetype> initialArchetypes;
+  List<Archetype> searchedArchetypes = [];
   final TextStyle searchTextStyle;
 
-  StreamController<List<YuGiOhCard>> debouncedCards =
+  StreamController<List<Archetype>> debouncedArchetypes =
       StreamController.broadcast();
   StreamController<bool> isLoadingStream = StreamController.broadcast();
 
   Timer? _debounceTimer;
 
-  SearchCardDelegate({
-    required this.searchCards,
-    required this.initialCards,
+  SearchArchetypeDelegate({
+    required this.initialArchetypes,
     required this.searchTextStyle,
   }) : super(
-          searchFieldLabel: 'Buscar carta por nombre',
+          searchFieldLabel: 'Buscar arquetipo',
           searchFieldStyle: searchTextStyle,
+          textInputAction: TextInputAction.send,
         );
 
   void clearStreams() {
-    debouncedCards.close();
+    debouncedArchetypes.close();
   }
 
   void _onQueryChanged(String query) {
@@ -39,38 +35,34 @@ class SearchCardDelegate extends SearchDelegate<YuGiOhCard?> {
     if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
 
     _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
-      if (query.trim().isEmpty) {
-        debouncedCards.add([]);
-        return;
-      }
+      searchedArchetypes = initialArchetypes;
 
-      final cards = await searchCards(query);
-      initialCards = cards;
-      debouncedCards.add(cards);
+      final archetypes = searchedArchetypes.where((element) {
+        return element.archetypeName!
+            .toLowerCase()
+            .contains(query.toLowerCase());
+      }).toList();
+      searchedArchetypes = archetypes;
+      debouncedArchetypes.add(searchedArchetypes);
       isLoadingStream.add(false);
     });
   }
 
   Widget buildResultsAndSuggestions() {
     return StreamBuilder(
-      initialData: initialCards,
-      stream: debouncedCards.stream,
+      initialData: searchedArchetypes,
+      stream: debouncedArchetypes.stream,
       builder: (context, snapshot) {
-        final cards = snapshot.data ?? [];
-
-        if (cards.isEmpty) {
-          return Center(
-            child: Text('No se encontraron cartas con "$query"'),
-          );
-        }
+        final archetypes = snapshot.data ?? [];
 
         return ListView.builder(
-          itemCount: cards.length,
-          itemBuilder: (context, index) => SearchCardItem(
-            card: cards[index],
-            onMovieSelected: (context, movie) {
+          itemCount: archetypes.length,
+          itemBuilder: (context, index) => ListTile(
+            title: Text(archetypes[index].archetypeName!),
+            trailing: const Icon(Icons.arrow_forward_ios_rounded),
+            onTap: () {
               clearStreams();
-              close(context, movie);
+              close(context, archetypes[index]);
             },
           ),
         );
@@ -118,6 +110,7 @@ class SearchCardDelegate extends SearchDelegate<YuGiOhCard?> {
 
   @override
   Widget buildResults(BuildContext context) {
+    _onQueryChanged(query);
     return buildResultsAndSuggestions();
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yu_gi_oh_app/domain/entities/yugioh_card.dart';
 import 'package:yu_gi_oh_app/infrastructure/models/yu-gi-oh/archetypes.dart';
 import 'package:yu_gi_oh_app/infrastructure/repositories/yugioh_db_repository_impl.dart';
-import 'package:yu_gi_oh_app/presentation/providers/cards_repository_provider.dart';
+import 'package:yu_gi_oh_app/presentation/providers/cards/cards_repository_provider.dart';
 
 /// Provider for the cards repository. It will be used to provide the repository to the UI layer.
 final allCardsProvider =
@@ -47,15 +47,16 @@ class ArchetypesNotifier extends StateNotifier<List<Archetype>> {
 
   bool isLoading = false;
 
-  Future<void> fetchArchetypes() async {
-    if (isLoading) return;
+  Future<List<Archetype>?> fetchArchetypes() async {
+    if (isLoading) return null;
     isLoading = true;
 
     final archetypes = await repository.getArchetypes();
-    if (archetypes == null) return;
+    if (archetypes == null) return null;
 
     state = [...state, ...archetypes];
     await Future.delayed(const Duration(milliseconds: 400));
     isLoading = false;
+    return archetypes;
   }
 }
