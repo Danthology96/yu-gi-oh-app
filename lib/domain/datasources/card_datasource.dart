@@ -9,9 +9,12 @@ abstract class CardDatasource {
   /// Get a list of archetypes.
   Future<List<Archetype>?> getArchetypes();
 
-  /// Get a card by its archetype.
-  Future<List<YuGiOhCard>?> getByArchetype({required String archetype});
+  /// Get a list of cards by its archetype.
+  Future<List<YuGiOhCard>?> getCardsByArchetype({required String archetype});
 
-  /// Get a card by its name similarities.
-  Future<List<YuGiOhCard>?> getByMatchName({required String name});
+  /// Get a card by its id.
+  Future<YuGiOhCard?> getCardById(int id);
+
+  /// Get a list of cards by its name similarities.
+  Future<List<YuGiOhCard>?> getCardsByMatchName({required String name});
 }
