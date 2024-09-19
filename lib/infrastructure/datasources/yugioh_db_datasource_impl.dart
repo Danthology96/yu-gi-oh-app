@@ -17,7 +17,12 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
     final yuGiOhresponse = CardListResponse.fromMap(json);
     final List<YuGiOhCard> cards =
         yuGiOhresponse.data == null ? [] : yuGiOhresponse.data!;
-    return cards;
+
+    /// Filter out cards that are banned.
+    final availableCards =
+        cards.where((card) => card.banlistInfo == null).toList();
+
+    return availableCards;
   }
 
   @override

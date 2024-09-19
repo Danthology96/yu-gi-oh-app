@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:yu_gi_oh_app/domain/entities/yugioh_card.dart';
 import 'package:yu_gi_oh_app/infrastructure/models/yu-gi-oh/archetypes.dart';
 import 'package:yu_gi_oh_app/presentation/delegates/search_archetype_delegate.dart';
 import 'package:yu_gi_oh_app/presentation/delegates/search_card_delegate.dart';
+import 'package:yu_gi_oh_app/presentation/pages/pages.dart';
+import 'package:yu_gi_oh_app/presentation/pages/searched_cards_page.dart';
 import 'package:yu_gi_oh_app/presentation/providers/providers.dart';
 import 'package:yu_gi_oh_app/presentation/providers/search/search_cards_provider.dart';
 
@@ -55,14 +58,20 @@ class CustomAppbar extends ConsumerWidget {
                         if (isArchetypeSearch) {
                           _showArchetypeSearch(
                                   searchQuery, context, textTheme, ref)
-                              .then((card) {
-                            if (card == null) return;
+                              .then((archetype) {
+                            if (archetype == null) return;
+
+                            context.push(
+                                '${HomePage.path}/${SearchedCardsPage.path}/${archetype.archetypeName}');
                           });
                         } else {
                           _showCardSearch(searchQuery, context, searchedCards,
                                   textTheme, isArchetypeSearch, ref)
                               .then((card) {
                             if (card == null) return;
+
+                            context.push(
+                                '${HomePage.path}/${CardDetailPage.path}/${card.id}');
                           });
                         }
                       });

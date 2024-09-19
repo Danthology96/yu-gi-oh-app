@@ -11,6 +11,13 @@ final allCardsProvider =
   return CardsNotifier(repository: cardsRepository);
 });
 
+/// Provider for the cards repository. It will be used to provide the cards by archetype to the UI layer.
+final archetypeCardsProvider =
+    StateNotifierProvider<ArchetypeCardsNotifier, List<YuGiOhCard>>((ref) {
+  final cardsRepository = ref.watch(cardsRepositoryProvider);
+  return ArchetypeCardsNotifier(repository: cardsRepository);
+});
+
 /// Provider for the archetypes repository. It will be used to provide the repository to the UI layer.
 final archetypesProvider =
     StateNotifierProvider<ArchetypesNotifier, List<Archetype>>((ref) {
@@ -33,7 +40,28 @@ class CardsNotifier extends StateNotifier<List<YuGiOhCard>> {
     final cards = await repository.getAllCards();
     if (cards == null) return;
 
-    state = [...state, ...cards];
+    state = cards;
+    await Future.delayed(const Duration(milliseconds: 400));
+    isLoading = false;
+  }
+}
+
+/// Card notifier class that will be used to notify the UI layer about the archetypes cards state.
+class ArchetypeCardsNotifier extends StateNotifier<List<YuGiOhCard>> {
+  ArchetypeCardsNotifier({required this.repository}) : super([]);
+
+  YuGiOhDbRepositoryImpl repository;
+
+  bool isLoading = false;
+
+  Future<void> fetchByArchetype(String archetype) async {
+    if (isLoading) return;
+    isLoading = true;
+
+    final cards = await repository.getCardsByArchetype(archetype: archetype);
+    if (cards == null) return;
+
+    state = cards;
     await Future.delayed(const Duration(milliseconds: 400));
     isLoading = false;
   }

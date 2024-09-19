@@ -6,7 +6,7 @@ import 'package:yu_gi_oh_app/domain/entities/yugioh_card.dart';
 import 'package:yu_gi_oh_app/presentation/providers/providers.dart';
 
 class CardDetailPage extends ConsumerStatefulWidget {
-  static const name = 'card-detail-page';
+  static const name = 'card-detail';
   static const path = name;
 
   final String cardId;
