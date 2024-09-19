@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:widget_zoom/widget_zoom.dart';
+import 'package:yu_gi_oh_app/config/theme/text_theme.dart';
 import 'package:yu_gi_oh_app/domain/entities/yugioh_card.dart';
+import 'package:yu_gi_oh_app/domain/enums/enums.dart';
 import 'package:yu_gi_oh_app/presentation/providers/providers.dart';
+import 'package:yu_gi_oh_app/presentation/widgets/row_tile.dart';
 
 class CardDetailPage extends ConsumerStatefulWidget {
   static const name = 'card-detail';
@@ -59,6 +62,8 @@ class _CardDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final textStyles = Theme.of(context).textTheme;
+    final leadingStyle = textStyles.titleSmall;
+    final trailingStyle = textStyles.bodyMedium;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,13 +95,67 @@ class _CardDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(card.name ?? '', style: textStyles.titleLarge),
+                    const SizedBox(height: 5),
+                    if (card.atk != null && card.def != null)
+                      Row(
+                        children: [
+                          rowRichText('ATK: ', card.atk.toString(),
+                              leadingStyle: textTheme.bodyLarge,
+                              trailingStyle: textTheme.bodyLarge),
+                          const SizedBox(width: 10),
+                          rowRichText('DEF: ', card.def.toString(),
+                              leadingStyle: textTheme.bodyLarge,
+                              trailingStyle: textTheme.bodyLarge),
+                        ],
+                      ),
+                    const SizedBox(height: 5),
                     Text(card.desc ?? '', style: textStyles.bodySmall),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
+        // Card attributes
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (card.humanReadableCardType != null)
+                rowRichText(
+                    'Type: ',
+                    humanReadableCardTypeValues
+                            .reverse[card.humanReadableCardType] ??
+                        '',
+                    leadingStyle: leadingStyle,
+                    trailingStyle: trailingStyle),
+              if (card.race != null)
+                rowRichText('Race: ', raceValues.reverse[card.race] ?? '',
+                    leadingStyle: leadingStyle, trailingStyle: trailingStyle),
+              if (card.attribute != null)
+                rowRichText(
+                    'Atribute: ', attributeValues.reverse[card.attribute] ?? '',
+                    leadingStyle: leadingStyle, trailingStyle: trailingStyle),
+              if (card.linkval != null)
+                rowRichText('Link: ', card.linkval.toString(),
+                    leadingStyle: leadingStyle, trailingStyle: trailingStyle),
+              if (card.scale != null)
+                rowRichText('Scale: ', card.scale.toString(),
+                    leadingStyle: leadingStyle, trailingStyle: trailingStyle),
+              if (card.cardPrices?.first.tcgplayerPrice != null)
+                rowRichText('Card price: ',
+                    "\$${card.cardPrices?.first.tcgplayerPrice}",
+                    leadingStyle: leadingStyle, trailingStyle: trailingStyle),
+              if (card.monsterDesc != null)
+                rowRichText('Monster description: ', card.monsterDesc ?? '',
+                    leadingStyle: leadingStyle,
+                    trailingStyle:
+                        trailingStyle?.copyWith(fontStyle: FontStyle.italic)),
+            ],
+          ),
+        ),
+
         const SizedBox(height: 50),
       ],
     );
