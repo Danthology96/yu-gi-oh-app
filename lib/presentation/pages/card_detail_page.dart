@@ -100,13 +100,26 @@ class _CardDetails extends StatelessWidget {
                       Row(
                         children: [
                           rowRichText('ATK: ', card.atk.toString(),
-                              leadingStyle: textTheme.bodyLarge,
+                              leadingStyle: textTheme.bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.w700),
                               trailingStyle: textTheme.bodyLarge),
                           const SizedBox(width: 10),
                           rowRichText('DEF: ', card.def.toString(),
-                              leadingStyle: textTheme.bodyLarge,
+                              leadingStyle: textTheme.bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.w700),
                               trailingStyle: textTheme.bodyLarge),
                         ],
+                      ),
+                    const SizedBox(height: 5),
+                    if (card.humanReadableCardType != null)
+                      rowRichText(
+                        'Type: ',
+                        humanReadableCardTypeValues
+                                .reverse[card.humanReadableCardType] ??
+                            '',
+                        leadingStyle: textTheme.bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.w700),
+                        trailingStyle: textTheme.bodyLarge,
                       ),
                     const SizedBox(height: 5),
                     Text(card.desc ?? '', style: textStyles.bodySmall),
@@ -122,14 +135,6 @@ class _CardDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (card.humanReadableCardType != null)
-                rowRichText(
-                    'Type: ',
-                    humanReadableCardTypeValues
-                            .reverse[card.humanReadableCardType] ??
-                        '',
-                    leadingStyle: leadingStyle,
-                    trailingStyle: trailingStyle),
               if (card.race != null)
                 rowRichText('Race: ', raceValues.reverse[card.race] ?? '',
                     leadingStyle: leadingStyle, trailingStyle: trailingStyle),
