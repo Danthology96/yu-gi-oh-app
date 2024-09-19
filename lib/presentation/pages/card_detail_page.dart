@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:widget_zoom/widget_zoom.dart';
 import 'package:yu_gi_oh_app/domain/entities/yugioh_card.dart';
 import 'package:yu_gi_oh_app/presentation/providers/providers.dart';
 
@@ -69,11 +70,14 @@ class _CardDetails extends StatelessWidget {
             children: [
               if (card.cardImages?.isNotEmpty == true)
                 // Image
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    card.cardImages![0].imageUrl!,
-                    width: size.width * 0.3,
+                WidgetZoom(
+                  heroAnimationTag: 'card-image-${card.id}',
+                  zoomWidget: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      card.cardImages![0].imageUrl!,
+                      width: size.width * 0.3,
+                    ),
                   ),
                 ),
 
@@ -93,24 +97,6 @@ class _CardDetails extends StatelessWidget {
             ],
           ),
         ),
-
-        // // Generos de la película
-        // Padding(
-        //   padding: const EdgeInsets.all(8),
-        //   child: Wrap(
-        //     children: [
-        //       ...card.genreIds.map((gender) => Container(
-        //             margin: const EdgeInsets.only(right: 10),
-        //             child: Chip(
-        //               label: Text(gender),
-        //               shape: RoundedRectangleBorder(
-        //                   borderRadius: BorderRadius.circular(20)),
-        //             ),
-        //           ))
-        //     ],
-        //   ),
-        // ),
-
         const SizedBox(height: 50),
       ],
     );
