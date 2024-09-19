@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:yu_gi_oh_app/config/theme/constants/environment.dart';
 import 'package:yu_gi_oh_app/domain/datasources/card_datasource.dart';
 import 'package:yu_gi_oh_app/domain/entities/yugioh_card.dart';
-import 'package:yu_gi_oh_app/infrastructure/models/models.dart';
 import 'package:yu_gi_oh_app/infrastructure/models/yu-gi-oh/archetypes.dart';
+import 'package:yu_gi_oh_app/infrastructure/models/yu-gi-oh/card_list_response.dart';
 
 /// Implementation of the [CardDatasource] for the YuGiOh API.
 class YugiOhDbDatasourceImpl extends CardDatasource {
@@ -12,25 +12,12 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
     baseUrl: Environment.apiURL,
   ));
 
-  /// Convert the JSON response to a list of YuGiOhCards.
-  List<YuGiOhCard>? _jsonToYuGiOhCards(Map<String, dynamic> json) {
-    final yuGiOhresponse = CardListResponse.fromMap(json);
-    final List<YuGiOhCard> cards =
-        yuGiOhresponse.data == null ? [] : yuGiOhresponse.data!;
-
-    /// Filter out cards that are banned.
-    final availableCards =
-        cards.where((card) => card.banlistInfo == null).toList();
-
-    return availableCards;
-  }
-
   @override
   Future<List<YuGiOhCard>?> getAllCards() async {
     final response = await dio.get(
       '/cardinfo.php',
     );
-    return _jsonToYuGiOhCards(response.data);
+    return jsonToYuGiOhCards(response.data);
   }
 
   @override
@@ -43,7 +30,7 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
           'archetype': archetype,
         },
       );
-      return _jsonToYuGiOhCards(response.data);
+      return jsonToYuGiOhCards(response.data);
     } catch (e) {
       // Handle the error appropriately
       debugPrint('Error fetching cards by archetype: $e');
@@ -60,7 +47,7 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
           'fname': name,
         },
       );
-      return _jsonToYuGiOhCards(response.data);
+      return jsonToYuGiOhCards(response.data);
     } catch (e) {
       // Handle the error appropriately
       debugPrint('Error fetching cards by archetype: $e');
@@ -106,4 +93,17 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
       return null;
     }
   }
+}
+
+/// Convert the JSON response to a list of YuGiOhCards.
+List<YuGiOhCard>? jsonToYuGiOhCards(Map<String, dynamic> json) {
+  final yuGiOhresponse = CardListResponse.fromMap(json);
+  final List<YuGiOhCard> cards =
+      yuGiOhresponse.data == null ? [] : yuGiOhresponse.data!;
+
+  /// Filter out cards that are banned.
+  final availableCards =
+      cards.where((card) => card.banlistInfo == null).toList();
+
+  return availableCards;
 }
