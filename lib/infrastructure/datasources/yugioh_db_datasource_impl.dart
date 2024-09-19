@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:yu_gi_oh_app/config/theme/constants/environment.dart';
 import 'package:yu_gi_oh_app/domain/datasources/card_datasource.dart';
 import 'package:yu_gi_oh_app/domain/entities/yugioh_card.dart';
@@ -29,33 +30,54 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
 
   @override
   Future<List<YuGiOhCard>?> getByArchetype({required String archetype}) async {
-    final response = await dio.get(
-      '/cardinfo.php',
-      queryParameters: {
-        'archetype': archetype,
-      },
-    );
-    return _jsonToYuGiOhCards(response.data);
+    try {
+      final response = await dio.get(
+        '/cardinfo.php',
+        queryParameters: {
+          'archetype': archetype,
+        },
+      );
+      return _jsonToYuGiOhCards(response.data);
+    } catch (e) {
+      // Handle the error appropriately
+      debugPrint('Error fetching cards by archetype: $e');
+      return null;
+    }
   }
 
   @override
   Future<List<YuGiOhCard>?> getByMatchName({required String name}) async {
-    final response = await dio.get(
-      '/cardinfo.php',
-      queryParameters: {
-        'fname': name,
-      },
-    );
-    return _jsonToYuGiOhCards(response.data);
+    try {
+      final response = await dio.get(
+        '/cardinfo.php',
+        queryParameters: {
+          'fname': name,
+        },
+      );
+      return _jsonToYuGiOhCards(response.data);
+    } catch (e) {
+      // Handle the error appropriately
+      debugPrint('Error fetching cards by archetype: $e');
+      return null;
+    }
   }
 
   @override
   Future<List<Archetype>?> getArchetypes() async {
-    final response = await dio.get(
-      '/archetypes.php',
-    );
-    final List<Archetype> archetypes =
-        response.data == null ? [] : response.data!;
-    return archetypes;
+    try {
+      final response = await dio.get(
+        '/archetypes.php',
+      );
+      final List<Archetype> archetypes = response.data == null
+          ? []
+          : (response.data as List)
+              .map((item) => Archetype.fromMap(item))
+              .toList();
+      return archetypes;
+    } catch (e) {
+      // Handle the error appropriately
+      debugPrint('Error fetching cards by archetype: $e');
+      return null;
+    }
   }
 }

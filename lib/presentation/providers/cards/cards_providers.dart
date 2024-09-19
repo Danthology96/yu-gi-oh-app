@@ -47,15 +47,16 @@ class ArchetypesNotifier extends StateNotifier<List<Archetype>> {
 
   bool isLoading = false;
 
-  Future<void> fetchArchetypes() async {
-    if (isLoading) return;
+  Future<List<Archetype>?> fetchArchetypes() async {
+    if (isLoading) return null;
     isLoading = true;
 
     final archetypes = await repository.getArchetypes();
-    if (archetypes == null) return;
+    if (archetypes == null) return null;
 
     state = [...state, ...archetypes];
     await Future.delayed(const Duration(milliseconds: 400));
     isLoading = false;
+    return archetypes;
   }
 }
