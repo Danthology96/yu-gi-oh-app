@@ -15,17 +15,23 @@ class YuGiOhDbRepositoryImpl extends CardRepository {
   }
 
   @override
-  Future<List<YuGiOhCard>?> getByArchetype({required String archetype}) async {
-    return await cardDataSource.getByArchetype(archetype: archetype);
+  Future<List<YuGiOhCard>?> getCardsByArchetype(
+      {required String archetype}) async {
+    return await cardDataSource.getCardsByArchetype(archetype: archetype);
   }
 
   @override
-  Future<List<YuGiOhCard>?> getByMatchName({required String name}) async {
-    return await cardDataSource.getByMatchName(name: name);
+  Future<List<YuGiOhCard>?> getCardsByMatchName({required String name}) async {
+    return await cardDataSource.getCardsByMatchName(name: name);
   }
 
   @override
   Future<List<Archetype>?> getArchetypes() async {
     return await cardDataSource.getArchetypes();
+  }
+
+  @override
+  Future<YuGiOhCard?> getCardById(int id) async {
+    return await cardDataSource.getCardById(id);
   }
 }

@@ -68,9 +68,9 @@ class SearchCardDelegate extends SearchDelegate<YuGiOhCard?> {
           itemCount: cards.length,
           itemBuilder: (context, index) => SearchCardItem(
             card: cards[index],
-            onMovieSelected: (context, movie) {
+            onCardSelected: (context, card) {
               clearStreams();
-              close(context, movie);
+              close(context, card);
             },
           ),
         );

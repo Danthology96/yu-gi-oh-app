@@ -23,7 +23,7 @@ class SearchedCardsNotifier extends StateNotifier<List<YuGiOhCard>> {
 
   Future<List<YuGiOhCard>> cardsByArchetypeQuery(String query) async {
     final List<YuGiOhCard> cards =
-        await cardsRepository.getByArchetype(archetype: query) ?? [];
+        await cardsRepository.getCardsByArchetype(archetype: query) ?? [];
     ref.read(searchQueryProvider.notifier).update((state) => query);
 
     state = cards;
@@ -32,7 +32,7 @@ class SearchedCardsNotifier extends StateNotifier<List<YuGiOhCard>> {
 
   Future<List<YuGiOhCard>> cardsByNameQuery(String query) async {
     final List<YuGiOhCard> cards =
-        await cardsRepository.getByMatchName(name: query) ?? [];
+        await cardsRepository.getCardsByMatchName(name: query) ?? [];
     ref.read(searchQueryProvider.notifier).update((state) => query);
 
     state = cards;

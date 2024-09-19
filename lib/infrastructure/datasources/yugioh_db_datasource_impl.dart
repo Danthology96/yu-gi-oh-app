@@ -29,7 +29,8 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
   }
 
   @override
-  Future<List<YuGiOhCard>?> getByArchetype({required String archetype}) async {
+  Future<List<YuGiOhCard>?> getCardsByArchetype(
+      {required String archetype}) async {
     try {
       final response = await dio.get(
         '/cardinfo.php',
@@ -46,7 +47,7 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
   }
 
   @override
-  Future<List<YuGiOhCard>?> getByMatchName({required String name}) async {
+  Future<List<YuGiOhCard>?> getCardsByMatchName({required String name}) async {
     try {
       final response = await dio.get(
         '/cardinfo.php',
@@ -74,6 +75,26 @@ class YugiOhDbDatasourceImpl extends CardDatasource {
               .map((item) => Archetype.fromMap(item))
               .toList();
       return archetypes;
+    } catch (e) {
+      // Handle the error appropriately
+      debugPrint('Error fetching cards by archetype: $e');
+      return null;
+    }
+  }
+
+  @override
+  Future<YuGiOhCard?> getCardById(int id) async {
+    try {
+      final response = await dio.get(
+        '/cardinfo.php',
+        queryParameters: {
+          'id': id,
+        },
+      );
+      final YuGiOhCard? card = response.data == null
+          ? null
+          : YuGiOhCard.fromMap(response.data["data"][0]);
+      return card;
     } catch (e) {
       // Handle the error appropriately
       debugPrint('Error fetching cards by archetype: $e');

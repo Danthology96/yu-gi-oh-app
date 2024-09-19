@@ -4,10 +4,10 @@ import 'package:yu_gi_oh_app/domain/entities/yugioh_card.dart';
 
 class SearchCardItem extends StatelessWidget {
   final YuGiOhCard card;
-  final Function onMovieSelected;
+  final Function onCardSelected;
 
   const SearchCardItem(
-      {super.key, required this.card, required this.onMovieSelected});
+      {super.key, required this.card, required this.onCardSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class SearchCardItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        onMovieSelected(context, card);
+        onCardSelected(context, card);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
