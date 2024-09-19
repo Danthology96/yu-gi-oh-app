@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yu_gi_oh_app/domain/entities/yugioh_card.dart';
 import 'package:yu_gi_oh_app/infrastructure/models/yu-gi-oh/archetypes.dart';
 import 'package:yu_gi_oh_app/infrastructure/repositories/yugioh_db_repository_impl.dart';
-import 'package:yu_gi_oh_app/presentation/providers/cards_repository_provider.dart';
+import 'package:yu_gi_oh_app/presentation/providers/cards/cards_repository_provider.dart';
 
 /// Provider for the cards repository. It will be used to provide the repository to the UI layer.
 final allCardsProvider =

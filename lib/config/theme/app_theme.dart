@@ -7,6 +7,7 @@ class AppTheme {
         fontFamily: 'Stone-Serif',
         brightness: Brightness.dark,
         scaffoldBackgroundColor: appColorScheme.surface,
+        appBarTheme: const AppBarTheme(centerTitle: false),
         useMaterial3: true,
         colorScheme: appColorScheme,
         textTheme: textTheme,

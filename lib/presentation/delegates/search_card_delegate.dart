@@ -9,6 +9,7 @@ typedef SearchCardsCallback = Future<List<YuGiOhCard>> Function(String query);
 class SearchCardDelegate extends SearchDelegate<YuGiOhCard?> {
   final SearchCardsCallback searchCards;
   List<YuGiOhCard> initialCards;
+  final TextStyle searchTextStyle;
 
   StreamController<List<YuGiOhCard>> debouncedCards =
       StreamController.broadcast();
@@ -19,8 +20,10 @@ class SearchCardDelegate extends SearchDelegate<YuGiOhCard?> {
   SearchCardDelegate({
     required this.searchCards,
     required this.initialCards,
+    required this.searchTextStyle,
   }) : super(
           searchFieldLabel: 'Buscar carta por arquetipo',
+          searchFieldStyle: searchTextStyle,
         );
 
   void clearStreams() {
@@ -33,11 +36,10 @@ class SearchCardDelegate extends SearchDelegate<YuGiOhCard?> {
     if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
 
     _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
-      // if ( query.isEmpty ) {
-      //   debouncedMovies.add([]);
-      //   return;
-      // }
-
+      if (query.isEmpty) {
+        debouncedCards.add([]);
+        return;
+      }
       final cards = await searchCards(query);
       initialCards = cards;
       debouncedCards.add(cards);
@@ -65,9 +67,6 @@ class SearchCardDelegate extends SearchDelegate<YuGiOhCard?> {
       },
     );
   }
-
-  // @override
-  // String get searchFieldLabel => 'Buscar película';
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -137,6 +136,7 @@ class _CardItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Image
             if (card.cardImages?[0].imageUrl != null)
@@ -160,22 +160,13 @@ class _CardItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(card.name ?? '', style: textStyles.titleMedium),
-                  // (card.overview.length > 100)
-                  //     ? Text('${card.overview.substring(0, 100)}...')
-                  //     : Text(card.overview),
-                  // Row(
-                  //   children: [
-                  //     Icon(Icons.star_half_rounded,
-                  //         color: Colors.yellow.shade800),
-                  //     const SizedBox(width: 5),
-                  //     Text(
-                  //       HumanFormats.number(card.voteAverage, 1),
-                  //       style: textStyles.bodyMedium!
-                  //           .copyWith(color: Colors.yellow.shade900),
-                  //     ),
-                  //   ],
-                  // )
+                  Text(card.name ?? '', style: textStyles.titleSmall),
+                  Text(
+                    card.desc ?? '',
+                    style: textStyles.bodySmall,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             ),

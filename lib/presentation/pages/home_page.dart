@@ -41,31 +41,40 @@ class _HomePageState extends ConsumerState<HomePage> {
                 floating: true,
                 flexibleSpace: FlexibleSpaceBar(
                   title: CustomAppbar(),
+                  centerTitle: false,
+                  titlePadding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 ),
               ),
 
               /// the app will show the cards in a masonry grid
-              SliverMasonryGrid.count(
-                childCount: 50,
-                crossAxisCount: 3,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                itemBuilder: (BuildContext context, int index) {
-                  debugPrint('index: $index');
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                sliver: SliverMasonryGrid.count(
+                  /// limit count to 50, ideally, the api should have a pagination
+                  /// to avoid fetching all the cards at once, so we can fetch more
+                  /// cards when the user scrolls down
+                  childCount: 50,
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  itemBuilder: (BuildContext context, int index) {
+                    debugPrint('index: $index');
 
-                  /// the app will show a bigger card in the first position
-                  if (index == 1) {
-                    return Column(
-                      children: [
-                        const SizedBox(height: 40),
-                        CardMasonryItem(card: cards[index])
-                      ],
-                    );
-                  }
+                    /// the app will show a bigger card in the first position
+                    if (index == 1) {
+                      return Column(
+                        children: [
+                          const SizedBox(height: 40),
+                          CardMasonryItem(card: cards[index])
+                        ],
+                      );
+                    }
 
-                  /// the app will show the rest of the cards
-                  return CardMasonryItem(card: cards[index]);
-                },
+                    /// the app will show the rest of the cards
+                    return CardMasonryItem(card: cards[index]);
+                  },
+                ),
               ),
             ]),
     );
